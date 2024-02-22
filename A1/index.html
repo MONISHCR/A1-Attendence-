@@ -59,20 +59,21 @@
             <img src="logo.png" alt="QSTRA Logo" class="logo">
             <h1>QSTRA</h1> <!-- Adjusted style to display inline -->
         </header>
-        <div class="row">
-            <div class="col-12">
-                <div id="qrcode"></div>
-                <div id="studentPhoto"></div>
-            </div>
-        </div>
+        
         <div class="row">
             <div class="col-12">
                 <h2 class="mb-4">Enter Roll Number:</h2>
                 <div class="form-group">
                     <input type="text" id="rollNumber" class="form-control" value="" />
                 </div>
-                <button onclick="generateQR()" class="btn btn-primary mr-2 btn-block">Generate QR Code</button>
+                <button onclick="generateQR(event)" class="btn btn-primary mr-2 btn-block">Generate QR Code</button>
                 <button onclick="clearQR()" class="btn btn-secondary btn-block">Clear</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div id="qrcode"></div>
+                <div id="studentPhoto"></div>
             </div>
         </div>
     </div>
@@ -91,7 +92,9 @@
             }
         }
 
-        function generateQR() {
+        function generateQR(event) {
+            event.preventDefault(); // Prevent default form submission action
+            
             var rollNumber = document.getElementById('rollNumber').value.toUpperCase(); // Convert to uppercase
             var qrDiv = document.getElementById('qrcode');
             qrDiv.innerHTML = ''; // Clear previous QR code if any
@@ -100,7 +103,6 @@
             imgQR.src = 'http://teleuniv.in/netra/studentQR/' + rollNumber + '.png';
             imgQR.alt = "QR Code";
             qrDiv.appendChild(imgQR);
-
 
             var photoDiv = document.getElementById('studentPhoto');
             photoDiv.innerHTML = '';
