@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #f2f0f5; /* Light violet background */
+            padding-top: 20px;
+            padding-bottom: 70px; /* Add padding for footer */
+        }
+        .container {
+            max-width: 400px; /* Reduced max-width */
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #qrcode {
+            margin-top: 20px;
+            text-align: center;
+        }
+        #qrcode img, #studentPhoto img {
+            max-width: 100%;
+            display: block;
+            margin: 0 auto;
+        }
+        header {
+            background-color: #f2f0f5; /* Light violet background */
+            padding: 20px;
+            text-align: center;
+            position: relative; /* Add position relative for logo positioning */
+        }
+        footer {
+            background-color: #f2f0f5; /* Light violet background */
+            padding: 10px 0;
+            text-align: center;
+            color: #888;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        /* Adjust logo size and position */
+        .logo {
+            position: absolute;
+            top: 8px;
+            left: 20px; /* Adjust left position to align beside the text */
+            max-height: 80px; /* Set maximum height for the logo */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="text-center mb-4">
+            <!-- Added the logo image here -->
+            <img src="logo.png" alt="QSTRA Logo" class="logo">
+            <h1>QSTRA</h1> <!-- Adjusted style to display inline -->
+        </header>
+        <div class="row">
+            <div class="col-12">
+                <div id="qrcode"></div>
+                <div id="studentPhoto"></div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <h2 class="mb-4">Enter Roll Number:</h2>
+                <div class="form-group">
+                    <input type="text" id="rollNumber" class="form-control" value="" />
+                </div>
+                <button onclick="generateQR()" class="btn btn-primary mr-2 btn-block">Generate QR Code</button>
+                <button onclick="clearQR()" class="btn btn-secondary btn-block">Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        &copy; Monish KMIT
+    </footer>
+
+    <script>
+        // Check if there's a saved value in local storage and set it as the input value
+        var savedRollNumber = localStorage.getItem('rollNumber');
+        if (savedRollNumber) {
+            var confirmSave = confirm("Do you want to use the saved roll number: " + savedRollNumber + "?");
+            if (confirmSave) {
+                document.getElementById('rollNumber').value = savedRollNumber;
+            }
+        }
+
+        function generateQR() {
+            var rollNumber = document.getElementById('rollNumber').value.toUpperCase(); // Convert to uppercase
+            var qrDiv = document.getElementById('qrcode');
+            qrDiv.innerHTML = ''; // Clear previous QR code if any
+
+            var imgQR = document.createElement('img');
+            imgQR.src = 'http://teleuniv.in/netra/studentQR/' + rollNumber + '.png';
+            imgQR.alt = "QR Code";
+            qrDiv.appendChild(imgQR);
+
+
+            var photoDiv = document.getElementById('studentPhoto');
+            photoDiv.innerHTML = '';
+
+            var imgPhoto = document.createElement('img');
+            imgPhoto.src = 'http://teleuniv.in/sanjaya/student-images/' + rollNumber + '.jpg';
+            imgPhoto.alt = "Student Photo";
+            photoDiv.appendChild(imgPhoto);
+
+            // Save the entered roll number in local storage
+            var confirmSave = confirm("Do you want to save this roll number for future use?");
+            if (confirmSave) {
+                localStorage.setItem('rollNumber', rollNumber);
+            }
+        }
+
+        function clearQR() {
+            document.getElementById('qrcode').innerHTML = '';
+            document.getElementById('studentPhoto').innerHTML = '';
+        }
+    </script>
+</body>
+</html>
